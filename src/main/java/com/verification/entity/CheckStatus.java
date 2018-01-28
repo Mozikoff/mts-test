@@ -1,6 +1,4 @@
-package com.entity;
-
-import java.sql.Date;
+package com.verification.entity;
 
 public class CheckStatus {
 

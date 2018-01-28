@@ -1,11 +1,13 @@
-package com.repository;
+package com.verification.repository;
 
-import com.entity.CheckStatus;
+import com.verification.entity.CheckStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
 import java.util.Calendar;
 
+@Repository
 public class CheckStatusRepository {
 
     private final JdbcTemplate jdbcTemplate;
