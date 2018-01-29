@@ -142,7 +142,7 @@ public class CheckObjectRepositoryTests {
     }
 
     @Test
-    public void getStatisticsNoDataForCurrentPeriod() throws SQLException {
+    public void getStatisticsNoDataForCurrentPeriodTest() throws SQLException {
         ScriptUtils.executeSqlScript(jdbcTemplate.getDataSource().getConnection(), new ClassPathResource(NO_DATA_SQL));
         CheckStatus actual = repository.getStatistics();
         log.info("Statistics from DB:");
