@@ -11,22 +11,22 @@ import java.util.Calendar;
 public class CheckStatusRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final String sql = "INSERT INTO check_status(date, not_unique_cnt, row_count, " +
-            "int_val_null_cnt, float_val_null_cnt, char_val_null_cnt, date_val_null_cnt," +
-            "int_val_zero_cnt, float_val_zero_cnt, char_val_zero_cnt, date_val_zero_cnt," +
-            "int_val_avg, float_val_avg, char_val_avg, date_val_avg) " +
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private final String SQL = "INSERT INTO CHECK_STATUS(DATE, NOT_UNIQUE_CNT, ROW_COUNT, " +
+            "INT_VAL_NULL_CNT, FLOAT_VAL_NULL_CNT, CHAR_VAL_NULL_CNT, DATE_VAL_NULL_CNT," +
+            "INT_VAL_ZERO_CNT, FLOAT_VAL_ZERO_CNT," +
+            "INT_VAL_AVG, FLOAT_VAL_AVG) " +
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
     public CheckStatusRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void addStatus(CheckStatus checkStatus) {
-        jdbcTemplate.update(sql, new Date(Calendar.getInstance().getTime().getTime()),
+        jdbcTemplate.update(SQL, new Date(Calendar.getInstance().getTime().getTime()),
                 checkStatus.getNotUniqueCnt(), checkStatus.getRowCount(),
                 checkStatus.getIntValNullCnt(), checkStatus.getFloatValNullCnt(), checkStatus.getCharValNullCnt(), checkStatus.getDateValNullCnt(),
-                checkStatus.getIntValZeroCnt(), checkStatus.getFloatValZeroCnt(), checkStatus.getCharValZeroCnt(), checkStatus.getDateValZeroCnt(),
-                checkStatus.getIntValAvg(), checkStatus.getFloatValAvg(), checkStatus.getCharValAvg(), checkStatus.getDateValAvg());
+                checkStatus.getIntValZeroCnt(), checkStatus.getFloatValZeroCnt(),
+                checkStatus.getIntValAvg(), checkStatus.getFloatValAvg());
 
     }
 }

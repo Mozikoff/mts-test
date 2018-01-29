@@ -1,6 +1,7 @@
 package com.verification.repository;
 
 import com.verification.entity.CheckStatus;
+import com.verification.utils.VerificationHelper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,13 +29,9 @@ public class CheckObjectRepository {
 
     private final String INT_ZERO_COUNT_SQL = "SELECT COUNT(*) FROM CHECK_OBJECT WHERE LOAD_DATE = ? AND INT_VALUE = 0";
     private final String FLOAT_ZERO_COUNT_SQL = "SELECT COUNT(*) FROM CHECK_OBJECT WHERE LOAD_DATE = ? AND FLOAT_VALUE = 0";
-    private final String CHAR_ZERO_COUNT_SQL = "SELECT COUNT(*) FROM CHECK_OBJECT WHERE LOAD_DATE = ? AND CHAR_VALUE  = 0";
-    private final String DATE_ZERO_COUNT_SQL = "SELECT COUNT(*) FROM CHECK_OBJECT WHERE LOAD_DATE = ? AND DATE_VALUE = 0";
 
-    private final String INT_AVG_SQL = "SELECT AVG(INT_VALUE) FROM CHECK_OBJECT WHERE LOAD_DATE = ?";
-    private final String FLOAT_AVG_SQL = "SELECT AVG(FLOAT_VALUE) FROM CHECK_OBJECT WHERE LOAD_DATE = ?";
-    private final String CHAR_AVG_SQL = "SELECT AVG(CHAR_VALUE) FROM CHECK_OBJECT WHERE LOAD_DATE = ?";
-    private final String DATE_AVG_SQL = "SELECT AVG(DATE_VALUE) FROM CHECK_OBJECT WHERE LOAD_DATE = ?";
+    private final String INT_AVG_SQL = "SELECT IFNULL(AVG(CAST(INT_VALUE AS DECIMAL(4,2))), 0) FROM CHECK_OBJECT WHERE LOAD_DATE = ?";
+    private final String FLOAT_AVG_SQL = "SELECT IFNULL(AVG(FLOAT_VALUE), 0) FROM CHECK_OBJECT WHERE LOAD_DATE = ?";
 
     public CheckObjectRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -50,12 +47,8 @@ public class CheckObjectRepository {
         Integer dateNullCount = jdbcTemplate.queryForObject(DATE_NULL_COUNT_SQL, Integer.class, currentDate);
         Integer intZeroCount = jdbcTemplate.queryForObject(INT_ZERO_COUNT_SQL, Integer.class, currentDate);
         Integer floatZeroCount = jdbcTemplate.queryForObject(FLOAT_ZERO_COUNT_SQL, Integer.class, currentDate);
-        Integer charZeroCount = jdbcTemplate.queryForObject(CHAR_ZERO_COUNT_SQL, Integer.class, currentDate);
-        Integer dateZeroCount = jdbcTemplate.queryForObject(DATE_ZERO_COUNT_SQL, Integer.class, currentDate);
-        Integer intAvg = jdbcTemplate.queryForObject(INT_AVG_SQL, Integer.class, currentDate);
-        Integer floatAvg = jdbcTemplate.queryForObject(FLOAT_AVG_SQL, Integer.class, currentDate);
-        Integer charAvg = jdbcTemplate.queryForObject(CHAR_AVG_SQL, Integer.class, currentDate);
-        Integer dateAvg = jdbcTemplate.queryForObject(DATE_AVG_SQL, Integer.class, currentDate);
+        Float intAvg = jdbcTemplate.queryForObject(INT_AVG_SQL, Float.class, currentDate);
+        Float floatAvg = jdbcTemplate.queryForObject(FLOAT_AVG_SQL, Float.class, currentDate);
 
         return CheckStatus.newBuilder()
                 .setNotUniqueCnt(notUniqueCount)
@@ -66,12 +59,9 @@ public class CheckObjectRepository {
                 .setDateValNullCnt(dateNullCount)
                 .setIntValZeroCnt(intZeroCount)
                 .setFloatValZeroCnt(floatZeroCount)
-                .setCharValZeroCnt(charZeroCount)
-                .setDateValZeroCnt(dateZeroCount)
-                .setIntValAvg(intAvg)
-                .setFloatValAvg(floatAvg)
-                .setCharValAvg(charAvg)
-                .setDateValAvg(dateAvg).build();
+                .setIntValAvg(VerificationHelper.round(intAvg, 2))
+                .setFloatValAvg(VerificationHelper.round(floatAvg, 2))
+                .build();
     }
 
 

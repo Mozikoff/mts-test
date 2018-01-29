@@ -10,12 +10,8 @@ public class CheckStatus {
     private int dateValNullCnt;
     private int intValZeroCnt;
     private int floatValZeroCnt;
-    private int charValZeroCnt;
-    private int dateValZeroCnt;
-    private int intValAvg;
-    private int floatValAvg;
-    private int charValAvg;
-    private int dateValAvg;
+    private float intValAvg;
+    private float floatValAvg;
 
     private CheckStatus() {}
 
@@ -51,28 +47,16 @@ public class CheckStatus {
         return floatValZeroCnt;
     }
 
-    public int getCharValZeroCnt() {
-        return charValZeroCnt;
-    }
-
-    public int getDateValZeroCnt() {
-        return dateValZeroCnt;
-    }
-
-    public int getIntValAvg() {
+    public float getIntValAvg() {
         return intValAvg;
     }
 
-    public int getFloatValAvg() {
+    public float getFloatValAvg() {
         return floatValAvg;
     }
 
-    public int getCharValAvg() {
-        return charValAvg;
-    }
-
-    public int getDateValAvg() {
-        return dateValAvg;
+    public static Builder newBuilder() {
+        return new CheckStatus().new Builder();
     }
 
     @Override
@@ -80,16 +64,31 @@ public class CheckStatus {
         return String.format(
                 "CheckStatus[notUniqueCnt='%d', rowCount='%d'" +
                         ", intValNullCnt='%d', floatValNullCnt='%d', charValNullCnt='%d', dateValNullCnt='%d'" +
-                        ", intValZeroCnt='%d', floatValZeroCnt='%d', charValZeroCnt='%d', dateValZeroCnt='%d'" +
-                        ", intValAvg='%d', floatValAvg='%d', charValAvg='%d', dateValAvg='%d']",
+                        ", intValZeroCnt='%d', floatValZeroCnt='%d'" +
+                        ", intValAvg='%f', floatValAvg='%f']",
                 notUniqueCnt, rowCount,
                 intValNullCnt, floatValNullCnt, charValNullCnt, dateValNullCnt,
-                intValZeroCnt, floatValZeroCnt, charValZeroCnt, dateValZeroCnt,
-                intValAvg, floatValAvg, charValAvg, dateValAvg);
+                intValZeroCnt, floatValZeroCnt,
+                intValAvg, floatValAvg);
     }
 
-    public static Builder newBuilder() {
-        return new CheckStatus().new Builder();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CheckStatus that = (CheckStatus) o;
+
+        if (notUniqueCnt != that.notUniqueCnt) return false;
+        if (rowCount != that.rowCount) return false;
+        if (intValNullCnt != that.intValNullCnt) return false;
+        if (floatValNullCnt != that.floatValNullCnt) return false;
+        if (charValNullCnt != that.charValNullCnt) return false;
+        if (dateValNullCnt != that.dateValNullCnt) return false;
+        if (intValZeroCnt != that.intValZeroCnt) return false;
+        if (floatValZeroCnt != that.floatValZeroCnt) return false;
+        if (Float.compare(intValAvg, that.intValAvg) != 0) return false;
+        return Float.compare(floatValAvg, that.floatValAvg) == 0;
     }
 
     public class Builder {
@@ -146,38 +145,14 @@ public class CheckStatus {
             return this;
         }
 
-        public Builder setCharValZeroCnt(int charValZeroCnt) {
-            CheckStatus.this.charValZeroCnt = charValZeroCnt;
-
-            return this;
-        }
-
-        public Builder setDateValZeroCnt(int dateValZeroCnt) {
-            CheckStatus.this.dateValZeroCnt = dateValZeroCnt;
-
-            return this;
-        }
-
-        public Builder setIntValAvg(int intValAvg) {
+        public Builder setIntValAvg(float intValAvg) {
             CheckStatus.this.intValAvg = intValAvg;
 
             return this;
         }
 
-        public Builder setFloatValAvg(int floatValAvg) {
+        public Builder setFloatValAvg(float floatValAvg) {
             CheckStatus.this.floatValAvg = floatValAvg;
-
-            return this;
-        }
-
-        public Builder setCharValAvg(int charValAvg) {
-            CheckStatus.this.charValAvg = charValAvg;
-
-            return this;
-        }
-
-        public Builder setDateValAvg(int dateValAvg) {
-            CheckStatus.this.dateValAvg = dateValAvg;
 
             return this;
         }
