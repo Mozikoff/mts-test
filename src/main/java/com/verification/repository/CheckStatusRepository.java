@@ -3,6 +3,7 @@ package com.verification.repository;
 import com.verification.entity.CheckStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ public class CheckStatusRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Transactional
     public void addStatus(CheckStatus checkStatus) {
         jdbcTemplate.update(SQL, new Date(Calendar.getInstance().getTime().getTime()),
                 checkStatus.getNotUniqueCnt(), checkStatus.getRowCount(),

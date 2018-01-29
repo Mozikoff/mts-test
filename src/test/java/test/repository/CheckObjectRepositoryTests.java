@@ -5,9 +5,7 @@ import com.verification.entity.CheckStatus;
 import com.verification.repository.CheckObjectRepository;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +30,6 @@ import static org.junit.Assert.assertTrue;
 public class CheckObjectRepositoryTests {
 
     private static final Logger log = LoggerFactory.getLogger(CheckObjectRepositoryTests.class);
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     private CheckObjectRepository repository;
     private JdbcTemplate jdbcTemplate;
@@ -115,7 +111,7 @@ public class CheckObjectRepositoryTests {
                 .setDateValNullCnt(1)
                 .setIntValZeroCnt(0)
                 .setFloatValZeroCnt(0)
-                .setIntValAvg(0.33f)
+                .setIntValAvg(1.0f)
                 .setFloatValAvg(0f)
                 .build()));
     }
